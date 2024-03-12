@@ -7,15 +7,9 @@ locals {
   private_subnet_secondary_range_gke_service = data.terraform_remote_state.network.outputs.subnets_secondary_ranges_private[2].range_name
 
   bastion_private_ip = data.terraform_remote_state.bastion.outputs.ip_address
-  cloudshell_private_ip = "130.211.94.59"
+  cloudshell_private_ip = "34.34.44.109"
 
   gke_name = "scheduler-${var.zone}"
-
-  common_labels = {
-    owned-by   = "platform"
-    managed-by = "terraform"
-    env        = "non-prod"
-  }
 }
 
 /******************************************
