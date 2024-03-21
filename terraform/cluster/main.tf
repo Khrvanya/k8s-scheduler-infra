@@ -7,7 +7,7 @@ locals {
   private_subnet_secondary_range_gke_service = data.terraform_remote_state.network.outputs.subnets_secondary_ranges_private[2].range_name
 
   bastion_private_ip = data.terraform_remote_state.bastion.outputs.ip_address
-  cloudshell_private_ip = "34.141.141.219"
+  cloudshell_private_ip = "34.91.205.68"
 
   gke_name = "scheduler-${var.zone}"
 }
@@ -32,7 +32,7 @@ module "gke" {
   ip_range_pods     = local.private_subnet_secondary_range_gke_pods
   ip_range_services = local.private_subnet_secondary_range_gke_service
 
-  enable_private_endpoint = false
+  enable_private_endpoint = true
   enable_private_nodes    = true
   
   master_ipv4_cidr_block = var.master_ipv4_cidr_block
@@ -67,10 +67,31 @@ module "gke" {
   remove_default_node_pool = true
   node_pools = [
     {
-      name            = "default-pool"
+      name            = "node-pool1"
       machine_type       = "e2-standard-2"
 
-      node_count         = 3
+      node_count         = 2
+      autoscaling = false
+
+      auto_upgrade = false
+      auto_repair  = true
+
+      disk_type       = "pd-standard"
+      local_ssd_count = 0
+      disk_size_gb    = 100
+
+      enable_gcfs                 = false
+      enable_integrity_monitoring = true
+      enable_secure_boot          = true
+      logging_variant             = "DEFAULT"
+
+      workload_metadata = "GKE_METADATA"
+    },
+    {
+      name            = "node-pool2"
+      machine_type       = "e2-standard-4"
+
+      node_count         = 1
       autoscaling = false
 
       auto_upgrade = false
