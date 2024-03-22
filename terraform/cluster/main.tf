@@ -7,7 +7,6 @@ locals {
   private_subnet_secondary_range_gke_service = data.terraform_remote_state.network.outputs.subnets_secondary_ranges_private[2].range_name
 
   bastion_private_ip = data.terraform_remote_state.bastion.outputs.ip_address
-  cloudshell_private_ip = "34.91.205.68"
 
   gke_name = "scheduler-${var.zone}"
 }
@@ -40,10 +39,6 @@ module "gke" {
     {
       cidr_block   = "${local.bastion_private_ip}/32"
       display_name = "bastion-host-dev"
-    },
-    {
-      cidr_block   = "${local.cloudshell_private_ip}/32"
-      display_name = "cloud-shell"
     }
   ]
   
