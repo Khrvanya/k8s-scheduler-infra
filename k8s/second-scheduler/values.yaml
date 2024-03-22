@@ -4,7 +4,7 @@
 
 scheduler:
   name: custom-scheduler
-  image: us-docker.pkg.dev/saas-test-omfe/k8s-scheduler/kube-scheduler:v1.0.0
+  image: us-docker.pkg.dev/saas-test-omfe/k8s-scheduler/kube-scheduler:v1.0.5
   replicaCount: 1
   leaderElect: false
 
@@ -18,4 +18,14 @@ controller:
 
 plugins:
   enabled: ["NodeResourcesAllocatable"]
-  # disabled: ["PrioritySort"] # only in-tree plugins need to be defined here
+  # disabled: [""] # only in-tree plugins need to be defined here
+
+pluginConfig:
+- name: NodeResourcesAllocatable
+  args:
+    mode: Least
+    resources:
+    - name: cpu
+      weight: 1000000
+    - name: memory
+      weight: 1
