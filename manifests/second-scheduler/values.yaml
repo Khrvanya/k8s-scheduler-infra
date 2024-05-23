@@ -4,13 +4,13 @@
 
 scheduler:
   name: custom-scheduler
-  image: us-docker.pkg.dev/saas-test-omfe/k8s-scheduler/kube-scheduler:v1.0.5
+  image: us-central1-docker.pkg.dev/saas-test-omfe/k8s-docker/scheduler:v1.0.0
   replicaCount: 1
   leaderElect: false
 
 controller:
   name: custom-controller
-  image: registry.k8s.io/scheduler-plugins/controller:v0.27.8
+  image: us-central1-docker.pkg.dev/saas-test-omfe/k8s-docker/controller:v1.0.0
   replicaCount: 1
 
 # LoadVariationRiskBalancing and TargetLoadPacking are not enabled by default
